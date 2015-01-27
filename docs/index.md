@@ -9,9 +9,9 @@
 
 ---
 
-**Note**: This is the documentation for the **version 3.0** of REST framework. Documentation for [version 2.4](http://tomchristie.github.io/rest-framework-2-docs/) is also available.
+**注意**: 这篇文档针对的是**3.0版本**的REST framework. [2.4版本](http://tomchristie.github.io/rest-framework-2-docs/) 的文档依然有效.
 
-For more details see the [3.0 release notes][3.0-announcement].
+更多的细节请参考[3.0发布说明][3.0-announcement].
 
 ---
 
@@ -29,139 +29,139 @@ For more details see the [3.0 release notes][3.0-announcement].
 </p>
 
 
-Django REST framework is a powerful and flexible toolkit that makes it easy to build Web APIs.
+Django REST framework是一个功能强大、扩展性非常好的工具库，它可以让你很轻松的来构建Web API.
 
-Some reasons you might want to use REST framework:
+下面可能是你想要使用REST framework的一些原因:
 
-* The [Web browsable API][sandbox] is a huge usability win for your developers.
-* [Authentication policies][authentication] including [OAuth1a][oauth1-section] and [OAuth2][oauth2-section] out of the box.
-* [Serialization][serializers] that supports both [ORM][modelserializer-section] and [non-ORM][serializer-section] data sources.
-* Customizable all the way down - just use [regular function-based views][functionview-section] if you don't need the [more][generic-views] [powerful][viewsets] [features][routers].
-* [Extensive documentation][index], and [great community support][group].
-* Used and trusted by large companies such as [Mozilla][mozilla] and [Eventbrite][eventbrite].
+* [Web预览API][sandbox] 对开发人员有巨大的帮助.
+* [认证策略][authentication]，包含[OAuth1a][oauth1-section]和[OAuth2][oauth2-section]的开箱即用.
+* [Serialization][serializers]同时支持[ORM][modelserializer-section]和[non-ORM][serializer-section]数据源.
+* 可针对所有场景进行定制 - 如果你不需要[更多][generic-views] [功能强大的][viewsets] [特性][routers]，可以仅仅使用[标准的 基于函数的 views][functionview-section].
+* [大量的文档][index], 以及[强大的社区支持][group].
+* 很多大公司信任而且正在使用,例如[Mozilla][mozilla]和[Eventbrite][eventbrite].
 
 ---
 
 ![Screenshot][image]
 
-**Above**: *Screenshot from the browsable API*
+**上图**: *Web预览API的截图*
 
-## Requirements
+## 必要的依赖项
 
-REST framework requires the following:
+REST framework 需要以下支持:
 
 * Python (2.6.5+, 2.7, 3.2, 3.3, 3.4)
 * Django (1.4.11+, 1.5.6+, 1.6.3+, 1.7)
 
-The following packages are optional:
+下列的包是可选的:
 
-* [Markdown][markdown] (2.1.0+) - Markdown support for the browsable API.
-* [PyYAML][yaml] (3.10+) - YAML content-type support.
-* [defusedxml][defusedxml] (0.3+) - XML content-type support.
-* [django-filter][django-filter] (0.9.2+) - Filtering support.
-* [django-oauth-plus][django-oauth-plus] (2.0+) and [oauth2][oauth2] (1.5.211+) - OAuth 1.0a support.
-* [django-oauth2-provider][django-oauth2-provider] (0.2.3+) - OAuth 2.0 support.
-* [django-guardian][django-guardian] (1.1.1+) - Object level permissions support.
+* [Markdown][markdown] (2.1.0+) - 对Web预览API的Markdown语法支持.
+* [PyYAML][yaml] (3.10+) - YAML格式内容支持.
+* [defusedxml][defusedxml] (0.3+) - XML格式内容支持.
+* [django-filter][django-filter] (0.9.2+) - 过滤器支持.
+* [django-oauth-plus][django-oauth-plus] (2.0+)和[oauth2][oauth2] (1.5.211+) - OAuth 1.0a支持.
+* [django-oauth2-provider][django-oauth2-provider] (0.2.3+) - OAuth 2.0支持.
+* [django-guardian][django-guardian] (1.1.1+) - 对象级别的权限支持.
 
-**Note**: The `oauth2` Python package is badly misnamed, and actually provides OAuth 1.0a support.  Also note that packages required for both OAuth 1.0a, and OAuth 2.0 are not yet Python 3 compatible.
+**注意**: Python包`oauth2`严重的名不副实, 其实提供的是OAuth 1.0a的支持. 还要注意的是这个包同时需要包OAuth 1.0a, 而OAuth 2.0 还为与Python 3兼容.
 
-## Installation
+## 安装
 
-Install using `pip`, including any optional packages you want...
+使用`pip`命令安装, 包含你想要的任意可选包...
 
     pip install djangorestframework
-    pip install markdown       # Markdown support for the browsable API.
-    pip install django-filter  # Filtering support
+    pip install markdown       # 对Web预览API的Markdown语法支持.
+    pip install django-filter  # 过滤器支持
 
-...or clone the project from github.
+...或者从github上克隆一个项目.
 
     git clone git@github.com:tomchristie/django-rest-framework.git
 
-Add `'rest_framework'` to your `INSTALLED_APPS` setting.
+然后在你的项目配置文件中的 `INSTALLED_APPS`里配置`'rest_framework'`.
 
     INSTALLED_APPS = (
         ...
         'rest_framework',
     )
 
-If you're intending to use the browsable API you'll probably also want to add REST framework's login and logout views.  Add the following to your root `urls.py` file.
+如果你打算使用Web预览API，很可能还需要添加REST framework的登陆和登出views.  在你的`urls.py`文件中添加下面内容.
 
     urlpatterns = [
         ...
         url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     ]
 
-Note that the URL path can be whatever you want, but you must include `'rest_framework.urls'` with the `'rest_framework'` namespace.
+注意，URL路径随意你配置, 但是你必须通过`'rest_framework'`命名空间引入`'rest_framework.urls'`.
 
-## Example
+## 示例
 
-Let's take a look at a quick example of using REST framework to build a simple model-backed API.
+让我们看看如何使用REST framework快速的构建一个简单的模型支持(model-backed)API.
 
-We'll create a read-write API for accessing information on the users of our project.
+我们会创建一个读写API，用来访问我们项目里面的users的信息.
 
-Any global settings for a REST framework API are kept in a single configuration dictionary named `REST_FRAMEWORK`.  Start off by adding the following to your `settings.py` module:
+REST framework API的所有的全局配置都在一个叫做`REST_FRAMEWORK`的单独的词典中.  从将下面添加到你的`settings.py`模块中开始:
 
     REST_FRAMEWORK = {
-        # Use Django's standard `django.contrib.auth` permissions,
-        # or allow read-only access for unauthenticated users.
+        # 使用Django标准的`django.contrib.auth`权限,
+        # 或者允许将只读权限给未鉴权的用户.
         'DEFAULT_PERMISSION_CLASSES': [
             'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         ]
     }
 
-Don't forget to make sure you've also added `rest_framework` to your `INSTALLED_APPS`.
+别忘记确认一下你已经将`rest_framework`添加到了`INSTALLED_APPS`中.
 
-We're ready to create our API now.
-Here's our project's root `urls.py` module:
+现在，我们已经做好了创建API的准备.
+下面是我们的项目根目录里的`urls.py`模块:
 
-    from django.conf.urls import url, include
-    from django.contrib.auth.models import User
-    from rest_framework import routers, serializers, viewsets
-
-	# Serializers define the API representation.
+	from django.conf.urls import url, include
+	from django.contrib.auth.models import User
+	from rest_framework import routers, serializers, viewsets
+	
+	# 序列化器(Serializers)定义了API的表现形式.
 	class UserSerializer(serializers.HyperlinkedModelSerializer):
 	    class Meta:
 	        model = User
 	        fields = ('url', 'username', 'email', 'is_staff')
+	
+	# 视图集(ViewSets)定义了视图(view)的行为.
+	class UserViewSet(viewsets.ModelViewSet):
+	    queryset = User.objects.all()
+	    serializer_class = UserSerializer
+	
+	# 路由器(Routers)提供了一个简单的方式来自动适配URL配置.
+	router = routers.DefaultRouter()
+	router.register(r'users', UserViewSet)
+	
+	# 让我们的API使用自动URL路由.
+	# 此外, 我们也添加了Web预览API的登陆URL.
+	urlpatterns = [
+	    url(r'^', include(router.urls)),
+	    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+	]
 
-    # ViewSets define the view behavior.
-    class UserViewSet(viewsets.ModelViewSet):
-        queryset = User.objects.all()
-        serializer_class = UserSerializer
+现在你可以在浏览器中打开这个API [http://127.0.0.1:8000/](http://127.0.0.1:8000/), 浏览你新建立的'users' API. 如果你使用了位于右上角的登陆控件进行了登陆，你就可以从系统中添加和删除user.
 
-    # Routers provide an easy way of automatically determining the URL conf.
-    router = routers.DefaultRouter()
-    router.register(r'users', UserViewSet)
+## 快速开始
 
-    # Wire up our API using automatic URL routing.
-    # Additionally, we include login URLs for the browsable API.
-    urlpatterns = [
-        url(r'^', include(router.urls)),
-        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-    ]
+现在你已经等不及的想开始了吧? 这份[快速开始指南][quickstart]会帮助你最快速的学会使用REST framework来构建并运行你的API.
 
-You can now open the API in your browser at [http://127.0.0.1:8000/](http://127.0.0.1:8000/), and view your new 'users' API. If you use the login control in the top right corner you'll also be able to add, create and delete users from the system.
+## 教程
 
-## Quickstart
+本教程会引导你一步一步的完成构建REST framework. 强烈建议阅读，虽然这需要耗费一些时间，但是它可以帮你全面了解每个特性是如何配合在一起工作的.
 
-Can't wait to get started? The [quickstart guide][quickstart] is the fastest way to get up and running, and building APIs with REST framework.
+* [1 - 序列化(Serialization)][tut-1]
+* [2 - 请求和响应(Requests & Responses)][tut-2]
+* [3 - 基于类的视图(Class based views)][tut-3]
+* [4 - 认证和权限(Authentication & permissions)][tut-4]
+* [5 - 关系和超链API(Relationships & hyperlinked APIs)][tut-5]
+* [6 - 视图集和路由器(Viewsets & routers)][tut-6]
 
-## Tutorial
+这里有一个用来测试目的完成的一个活生生的API例子, [猛击这里][sandbox].
 
-The tutorial will walk you through the building blocks that make up REST framework.   It'll take a little while to get through, but it'll give you a comprehensive understanding of how everything fits together, and is highly recommended reading.
+## API指南
 
-* [1 - Serialization][tut-1]
-* [2 - Requests & Responses][tut-2]
-* [3 - Class based views][tut-3]
-* [4 - Authentication & permissions][tut-4]
-* [5 - Relationships & hyperlinked APIs][tut-5]
-* [6 - Viewsets & routers][tut-6]
-
-There is a live example API of the finished tutorial API for testing purposes, [available here][sandbox].
-
-## API Guide
-
-The API guide is your complete reference manual to all the functionality provided by REST framework.
+这份API指南是给你参考的完整手册，包含REST framework提供的所有功能.
 
 * [Requests][request]
 * [Responses][response]
@@ -189,51 +189,49 @@ The API guide is your complete reference manual to all the functionality provide
 * [Testing][testing]
 * [Settings][settings]
 
-## Topics
+## 主题
 
-General guides to using REST framework.
+使用REST framework的通用指南.
 
-* [Documenting your API][documenting-your-api]
+* [创建你的API文档][documenting-your-api]
 * [AJAX, CSRF & CORS][ajax-csrf-cors]
-* [Browser enhancements][browser-enhancements]
-* [The Browsable API][browsableapi]
+* [浏览器功能增强][browser-enhancements]
+* [Web预览API][browsableapi]
 * [REST, Hypermedia & HATEOAS][rest-hypermedia-hateoas]
-* [Third Party Resources][third-party-resources]
-* [Contributing to REST framework][contributing]
-* [Project management][project-management]
-* [2.0 Announcement][rest-framework-2-announcement]
-* [2.2 Announcement][2.2-announcement]
-* [2.3 Announcement][2.3-announcement]
-* [2.4 Announcement][2.4-announcement]
-* [3.0 Announcement][3.0-announcement]
-* [Kickstarter Announcement][kickstarter-announcement]
-* [Release Notes][release-notes]
+* [第三方资源][third-party-resources]
+* [为REST framework做贡献][contributing]
+* [项目管理][project-management]
+* [2.0 发布公告][rest-framework-2-announcement]
+* [2.2 发布公告][2.2-announcement]
+* [2.3 发布公告][2.3-announcement]
+* [2.4 发布公告][2.4-announcement]
+* [3.0 发布公告][3.0-announcement]
+* [Kickstarter 公告][kickstarter-announcement]
+* [发布说明][release-notes]
 * [Credits][credits]
 
-## Development
+## 开发
 
-See the [Contribution guidelines][contributing] for information on how to clone
-the repository, run the test suite and contribute changes back to REST
-Framework.
+请参考[贡献准则][contributing]提供的信息，了解如何克隆REST Framework的资源，运行测试以及贡献修正.
 
-## Support
+## 支持
 
-For support please see the [REST framework discussion group][group], try the  `#restframework` channel on `irc.freenode.net`, search [the IRC archives][botbot], or raise a  question on [Stack Overflow][stack-overflow], making sure to include the ['django-rest-framework'][django-rest-framework-tag] tag.
+请参考[REST framework讨论组][group], 尝试位于`irc.freenode.net`上的`#restframework`频道, 查找[IRC档案][botbot], 或者直接在[Stack Overflow][stack-overflow]上提出问题, 确保将该问题添加到标签['django-rest-framework'][django-rest-framework-tag]下.
 
-[Paid support is available][paid-support] from [DabApps][dabapps], and can include work on REST framework core, or support with building your REST framework API.  Please [contact DabApps][contact-dabapps] if you'd like to discuss commercial support options.
+来自[DabApps][dabapps]的[付费支持是可用的][paid-support], 包含REST framework核心的工作, 或者为构建你自己的REST framework API提供支持.  如果你想讨论商业支持方面的话题，请[联系DabApps][contact-dabapps].
 
-For updates on REST framework development, you may also want to follow [the author][twitter] on Twitter.
+想随时了解最新的REST framework开发信息，你可以关注[作者][twitter]的推特.
 
-<a style="padding-top: 10px" href="https://twitter.com/_tomchristie" class="twitter-follow-button" data-show-count="false">Follow @_tomchristie</a>
+<a style="padding-top: 10px" href="https://twitter.com/_tomchristie" class="twitter-follow-button" data-show-count="false">关注 @_tomchristie</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-## Security
+## 安全
 
-If you believe you’ve found something in Django REST framework which has security implications, please **do not raise the issue in a public forum**.
+如果你确信你在Django REST framework中找到了一些安全隐患, 请**不要在公共场合公开这些问题**.
 
-Send a description of the issue via email to [rest-framework-security@googlegroups.com][security-mail].  The project maintainers will then work with you to resolve any issues where required, prior to any public disclosure.
+请通过email发送问题的描述给[rest-framework-security@googlegroups.com][security-mail].  必要时，在公布之前，项目的维护者会和你一起来解决这些问题.
 
-## License
+## 许可
 
 Copyright (c) 2011-2015, Tom Christie
 All rights reserved.

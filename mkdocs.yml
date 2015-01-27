@@ -7,14 +7,14 @@ repo_url: https://github.com/tomchristie/django-rest-framework
 theme_dir: docs_theme
 
 pages:
- - ['index.md', 'Home']
- - ['tutorial/quickstart.md', 'Tutorial', 'Quickstart']
- - ['tutorial/1-serialization.md', 'Tutorial', '1 - Serialization']
- - ['tutorial/2-requests-and-responses.md', 'Tutorial', '2 - Requests and responses']
- - ['tutorial/3-class-based-views.md', 'Tutorial', '3 - Class based views']
- - ['tutorial/4-authentication-and-permissions.md', 'Tutorial', '4 - Authentication and permissions']
- - ['tutorial/5-relationships-and-hyperlinked-apis.md', 'Tutorial', '5 - Relationships and hyperlinked APIs']
- - ['tutorial/6-viewsets-and-routers.md', 'Tutorial', '6 - Viewsets and routers']
+ - ['index.md', '主页']
+ - ['tutorial/quickstart.md', '教程', '快速开始']
+ - ['tutorial/1-serialization.md', '教程', '1 - 序列化(Serialization)']
+ - ['tutorial/2-requests-and-responses.md', '教程', '2 - 请求和响应(Requests & Responses)']
+ - ['tutorial/3-class-based-views.md', '教程', '3 - 基于类的视图(Class based views)']
+ - ['tutorial/4-authentication-and-permissions.md', '教程', '4 - 认证和权限(Authentication & permissions)']
+ - ['tutorial/5-relationships-and-hyperlinked-apis.md', '教程', '5 - 关系和超链API(Relationships & hyperlinked APIs)']
+ - ['tutorial/6-viewsets-and-routers.md', '教程', '6 - 视图集和路由器(Viewsets & routers)']
  - ['api-guide/requests.md', 'API Guide', 'Requests']
  - ['api-guide/responses.md', 'API Guide', 'Responses']
  - ['api-guide/views.md', 'API Guide', 'Views']
