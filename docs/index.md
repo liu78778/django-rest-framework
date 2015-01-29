@@ -9,7 +9,7 @@
 
 ---
 
-**注意**: 这篇文档针对的是**3.0版本**的REST framework. [2.4版本](http://tomchristie.github.io/rest-framework-2-docs/) 的文档依然有效.
+**注意**: 这篇文档针对的是**3.0版本**的REST framework. [2.4版本](http://tomchristie.github.io/rest-framework-2-docs/)的文档依然有效.
 
 更多的细节请参考[3.0发布说明][3.0-announcement].
 
